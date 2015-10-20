@@ -1,9 +1,11 @@
 module System.ImportGraph.GetIface where
-import           BinIface
-import           ClassyPrelude
-import           GHC
-import           System.Process
-import           TcRnMonad
+import           BinIface       (CheckHiWay (..), TraceBinIFaceReading (..), readBinIface)
+
+import           GHC            (Ghc, ModIface, getSession, getSessionDynFlags, setSessionDynFlags)
+import           Prelude        (IO, lines, mapM, ($), (.), (=<<))
+import           System.IO      (FilePath)
+import           System.Process (readProcess)
+import           TcRnMonad      (initTcRnIf, liftIO, (<$>))
 
 findIfaces :: Ghc [ModIface]
 findIfaces = do

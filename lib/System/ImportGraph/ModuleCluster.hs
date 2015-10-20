@@ -1,14 +1,15 @@
 module System.ImportGraph.ModuleCluster where
-import           Avail
-import           ClassyPrelude
-import           Data.GraphViz
-import           Data.GraphViz.Attributes.Complete
-import           Data.GraphViz.Types.Monadic
+import           Avail                             (availName)
+import           Data.GraphViz                     (textLabel)
+import           Data.GraphViz.Attributes.Complete (Attribute (..), Shape (..), StyleItem (..), StyleName (..))
+import           Data.GraphViz.Types.Monadic       (Dot, GraphID (..), cluster, edge, graphAttrs, node, node')
+import           Data.Monoid                       ((<>))
+import           Data.Text.Lazy                    (pack)
 import qualified Data.Text.Lazy                    as L
-import           HscTypes
-import           Module
-import           Name
-
+import           HscTypes                          (ModIface (..), Usage (..))
+import           Module                            (Module (..), moduleNameString)
+import           Name                              (getOccString, occNameString)
+import           Prelude                           (fst, map, mapM, mapM, mapM_, ($), (.))
 moduleCluster :: ModIface -> Dot L.Text
 moduleCluster iface@ModIface{..} = do
     cluster (Str (ifaceName iface)) $ do
